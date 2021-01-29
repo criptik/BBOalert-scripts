@@ -1,11 +1,11 @@
 //Script,onBiddingBoxDisplayed
-//# sourceURL=onBiddingBoxDisplayed.js
+//# sourceURL=kbdBidOnBoxDisplayed.js
+// Version 1.0
 
-// debugger;
 // this logic makes sure class is only defined once
 // even when onBiddingBoxDisplayed is called many times
-if (typeof(KbdBidHelperClass) == 'undefined') {
-    window.KbdBidHelperClass = class KbdBidHelper {
+if (typeof(KBDBIDHELPERCLASS) == 'undefined') {
+    window.KBDBIDHELPERCLASS = class KbdBidHelper {
 
         constructor() {
             // we hold the keydown listener function so we can remove it if needed
@@ -304,16 +304,15 @@ if (typeof(KbdBidHelperClass) == 'undefined') {
 
 // main code, create a new instance on each onBiddingBoxDisplayed Event
 // and attach the listener
-let helper = new window.KbdBidHelperClass();
+let helper = new window.KBDBIDHELPERCLASS();
 helper.addKeyDownListener();
 
 //Script
 
 //Script,onBiddingBoxRemoved
-//# sourceURL=onBiddingBoxRemoved.js
+//# sourceURL=kbdBidOnBoxRemoved.js
 
-// debugger;
-let helper = window.KbdBidHelperClass.getInstance();
+let helper = window.KBDBIDHELPERCLASS.getInstance();
 if (helper != null) {
     helper.removeKeyDownListener();
 }
