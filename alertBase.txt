@@ -1,5 +1,7 @@
-BBOalert, Gul-Tom System<br>Version 20210202<br>
-Option
+BBOalert, Gul-Tom System<br>Version 20210205<br>
+Option, Gul-Tom
+Shortcut,HH, Hi opps; mostly sayc here with puppet stayman; standard carding
+Shortcut,RB, If you see a sitout pair at your table they will be replaced with robots shortly
 . . . script to get first or 2nd match
 Script,C1,R = C.match(makeRegExp(CR))[1];
 Script,C2,R = C.match(makeRegExp(CR))[2];
@@ -87,6 +89,16 @@ Alias,2Nopen.,(2C--**--|)2N(--|Db)
 1C--,      2D, less than 6 HCP; usually 6 card suit
 1H--,      2S, less than 6 HCP; usually 6 card suit
 1S--,      3H, less than 6 HCP; usually 6 card suit
+. . . After weak 2 opening
+2[DHS]--,      2[HS],  natural, not forcing
+2[DHS]--,      2N, forcing; ask for feature (outside K or A)
+2[DHS]--2N--,  3C,  A or K in !C
+2[HS]--2N--,   3D,  A or K in !D
+2[DS]--2N--,   3H,  A or K in !H
+2[DH]--2N--,   3S,  A or K in !S
+2D--2N--,      3D,  no outside A or K
+2H--2N--,      3H,  no outside A or K
+2S--2N--,      3S,  no outside A or K
 
 . . .
   Michaels
@@ -172,6 +184,5 @@ Alias,2Nopen.,(2C--**--|)2N(--|Db)
 /4N--$/,5H, 2 or 5 key cards without trump Queen
 /4N--$/,5S, 2 or 5 key cards with trump Queen
 
-1C----1D--,2C,limit raise in !d,20210108_16:06 Deal 10
-1D--1H1S2C,2H,limit raise in spades,20210116_13:59 Deal 3
-
+Script,KbdFocus,window.KBDBIDHELPERINSTANCE.moveFocusToCardSurface();
+Shortcut,AltZ,%KbdFocus%
