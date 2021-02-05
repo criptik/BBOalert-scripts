@@ -2,20 +2,41 @@
 //# sourceURL=kbdBidOnDataLoad.js
 // Version 1.1
 
-// if class exists and has a listener, remove it
-// before defining new class
-if (typeof(KBDBIDHELPERCLASS) != 'undefined') {
-    window.KBDBIDHELPERCLASS().removeListenerIfAny();    
-}
 
-window.KBDBIDHELPERCLASS = class KbdBidHelper {
+class KBDBIDHELPER {
     constructor() {
-        // we hold the keydown listener function so we can remove it if needed
-        // we only want to have one listener at any time
-        if (KbdBidHelper.boundListenFunc === undefined) KbdBidHelper.boundListenFunc = null;
-        if (KbdBidHelper.buttonIndexMap === undefined) this.initButtonIndexMap();
-        KbdBidHelper.instance = this;
+        // if there is any old instance around, attempt to
+        // remove its listener if any (ignore errors)
+        try {window.KBDBIDHELPERINSTANCE.removeKeyDownListenerIfAny();}    
+        catch (e) {}
+
+        this.boundListenFunc = null;
+        this.initButtonIndexMap();
         this.elBiddingButtons = null;
+        this.keyBuffer = '';
+        this.verbose = false;   // set true for debugging info
+        
+        // in case we update class during bidding
+        if (window.biddingBoxDisplayed) {
+            this.onBiddingBoxDisplayed();
+        }
+    }
+
+    logIfVerbose(txt) {
+        if (this.verbose) console.log(txt);
+    }
+    
+    onBiddingBoxDisplayed() {
+        this.saveBiddingButtonElements();
+        this.addKeyDownListener();
+        this.moveFocusToCardSurface();
+    }
+    
+    onBiddingBoxHidden() {
+        this.removeKeyDownListenerIfAny();
+    }
+    
+    saveBiddingButtonElements() {
         // grab bidding button elements
         let elBiddingBox = document.querySelector(".biddingBoxClass");
         if (elBiddingBox == null) {
@@ -31,14 +52,16 @@ window.KBDBIDHELPERCLASS = class KbdBidHelper {
             console.log(`Error: elBiddingButtons length is only ${this.elBiddingButtons.length}`);
             return;
         }
-        
     }
 
-    // set the following to return true to get verbose console.log for keyBid debugging
-    isVerbose() {
-        return true;
+    moveFocusToCardSurface() {
+        let elCardSurface = document.querySelector('.cardSurfaceClass');
+        if (elCardSurface != null) {
+            elCardSurface.tabIndex = 0;
+            elCardSurface.focus();
+        }
     }
-
+    
     // set up button index map
     initButtonIndexMap() {
         let map = new Map();
@@ -57,23 +80,12 @@ window.KBDBIDHELPERCLASS = class KbdBidHelper {
         map.set('Db', 13);
         map.set('Rd', 14);
         map.set('OK', 16);
-        KbdBidHelper.buttonIndexMap = map;          
-    }
-
-    static getInstance() {
-        return KbdBidHelper.instance;
-    }
-
-    static removeListenerIfAny() {
-        let helper = KbdBidHelper.getInstance();
-        if (helper != null) {
-            helper.removeKeyDownListener();
-        }
+        this.buttonIndexMap = map;          
     }
 
     // call the mousedown listener for a given button name
-    buttonMouseDownListener(name) {
-        let idx = KbdBidHelper.buttonIndexMap.get(name);
+    callButtonMouseDownListener(name) {
+        let idx = this.buttonIndexMap.get(name);
         if (idx == undefined) {
             console.log(`Error: no button idx for "${name}"`);
             return;
@@ -193,18 +205,19 @@ window.KBDBIDHELPERCLASS = class KbdBidHelper {
     }
 
     handleKeyboardBid(e) {
+        // Check for early exit
         // this listener will ignore anything if the bidding box is not visible
-        if (!window.biddingBoxDisplayed) {
+        // will also ignore anything caught from an INPUT element
+        // and the target must be under elDealViewerDivClass
+        if (!window.biddingBoxDisplayed || (e.target.nodeName == 'INPUT')) {
             return;
         }
-        // will also ignore anything caught from an INPUT element
-        // (for example, keyboard input for cards played)
-        if (e.target.nodeName == 'INPUT') {
+        if ((this.elDealViewerDiv == null) || !this.elDealViewerDiv.contains(e.target)) {
             return;
         }
         
         let ukey = e.key.toUpperCase();
-        if (this.isVerbose()) console.log(`ukey=${ukey}`);
+        this.logIfVerbose(`ukey=${ukey}`);
 
         // here we check for Enter to record the callText 
         if (ukey === 'ENTER') {
@@ -212,9 +225,9 @@ window.KBDBIDHELPERCLASS = class KbdBidHelper {
             // we would like to ignore it if OK button not visible
             // but the button goes away before this listener is called
             if (this.keyBuffer.length == 2) { 
-                if (this.isVerbose()) console.log(`confirming bid of ${this.keyBuffer}`);
+                this.logIfVerbose(`confirming bid of ${this.keyBuffer}`);
                 // call the appropriate mouseDown function code
-                this.buttonMouseDownListener('OK');
+                this.callButtonMouseDownListener('OK');
             }
             // restart bid gathering
             this.keyBuffer = '';
@@ -268,26 +281,26 @@ window.KBDBIDHELPERCLASS = class KbdBidHelper {
         }
 
         if (this.keyBuffer == '') {
-            if (this.isVerbose()) console.log('no bid pattern found in keyboard listener');
+            this.logIfVerbose('no bid pattern found in keyboard listener');
         }
 
         // if we got this far we have a non-empty (legal) this.keyBuffer, call appropriate mousedown functions
         if (this.isBidLevelChar(this.keyBuffer[0])) {
             window.addLog(`keyCall:[${this.keyBuffer}]`);
-            if (this.isVerbose()) console.log(`keyCall:[${this.keyBuffer}]`);
+            this.logIfVerbose(`keyCall:[${this.keyBuffer}]`);
             // call mousedown for each of the two parts
             let levelchar = this.keyBuffer[0];
             let suitchar = this.keyBuffer[1];
-            this.buttonMouseDownListener(levelchar);
-            this.buttonMouseDownListener(suitchar);
+            this.callButtonMouseDownListener(levelchar);
+            this.callButtonMouseDownListener(suitchar);
         }
         else {
             // pass, double, redouble
-            this.buttonMouseDownListener(this.keyBuffer);
+            this.callButtonMouseDownListener(this.keyBuffer);
         }
         // clear keyBuffer if we're not confirming
         if ((this.keyBuffer.length == 2) && (window.confirmBidsSet() == 'N')) {
-            if (this.isVerbose()) console.log(`recorded bid of ${this.keyBuffer}, no confirm`);
+            this.logIfVerbose(`recorded bid of ${this.keyBuffer}, no confirm`);
             this.keyBuffer = '';
         }
     }
@@ -298,32 +311,34 @@ window.KBDBIDHELPERCLASS = class KbdBidHelper {
         // before we install new keydown listener, remove any existing listener that we had put in
         // for now we will listen at document level 
         // and then ignore the kbd input from INPUT elements, etc.
-        this.removeKeyDownListener();
+        this.removeKeyDownListenerIfAny();
+        this.elDealViewerDiv = document.querySelector('.dealViewerDivClass');
         if (this.isKeyboardEntrySet() == 'Y') {
-            KbdBidHelper.boundListenFunc = this.handleKeyboardBid.bind(this);
-            document.addEventListener('keydown', KbdBidHelper.boundListenFunc, true);
-            if (this.isVerbose()) console.log('Keyboard bidding listener set up');
+            this.boundListenFunc = this.handleKeyboardBid.bind(this);
+            document.addEventListener('keydown', this.boundListenFunc, true);
+            this.logIfVerbose('Keyboard bidding listener set up');
         }
     }
 
-    removeKeyDownListener() {
-        if (KbdBidHelper.boundListenFunc != null) {
-            document.removeEventListener('keydown', KbdBidHelper.boundListenFunc, true);
+    removeKeyDownListenerIfAny() {
+        if (this.boundListenFunc != null) {
+            document.removeEventListener('keydown', this.boundListenFunc, true);
+            this.logIfVerbose('Keyboard bidding listener removed');
         }
-        if (this.isVerbose()) console.log('Keyboard bidding listener removed');
     }
-}; // end of class  
-} // end of if class defined
+} // end of class declaration
 
+window.KBDBIDHELPERINSTANCE = new KBDBIDHELPER();
+//Script
 
 //Script,onBiddingBoxDisplayed
 //# sourceURL=kbdBidOnBoxDisplayed.js
 // main code, create a new instance on each onBiddingBoxDisplayed Event
 // and attach the listener
-new window.KBDBIDHELPERCLASS().addKeyDownListener();
+window.KBDBIDHELPERINSTANCE.onBiddingBoxDisplayed();
 //Script
 
-//Script,onBiddingBoxRemoved
-//# sourceURL=kbdBidOnBoxRemoved.js
-window.KBDBIDHELPERCLASS().removeListenerIfAny();
+//Script,onBiddingBoxHidden
+//# sourceURL=kbdBidOnBoxHidden.js
+window.KBDBIDHELPERINSTANCE.onBiddingBoxHidden();
 //Script

@@ -1,0 +1,177 @@
+BBOalert, Gul-Tom System<br>Version 20210202<br>
+Option
+. . . script to get first or 2nd match
+Script,C1,R = C.match(makeRegExp(CR))[1];
+Script,C2,R = C.match(makeRegExp(CR))[2];
+Script,C3,R = C.match(makeRegExp(CR))[3];
+
+Script,4thSuit,if ((new Set((C+B).match(/[CDHS]/g))).size == 4) R=`4th suit forcing; might not have !${B[1]}`
+__--__--__--,__,%4thSuit%
+... exception to 4th suit forcing
+1C--1D--1H--,1S, natural; at least 4 !s
+
+... Cappelletti
+1N(----)?,        Db,  Penalties
++,                2C,  one suited hand; !D !H or !S
++,                2D,  both majors 
++,                2H,  !H and a minor
++,                2S,  !S and a minor
++,                2N,  both minors
++,                3C,  natural long !C suit
+1N(----)? 2C--,    2D, forced response asking for suit
+1N(----)? 2[HS]--, 3C, what is minor? 
+1N(----)? 2[HS]--, 2N, natural 
+
+. . .
+. . . Our Puppet Stayman
+. . . system on over double
+,              1N, 15-17 Balanced could have 5!H or 5!S
+(----|------), 1N, 15-17 Balanced no 5M
+1N(--|Db),                   2C, ask for 5-card major; could be weak
++,                           2D, Jacoby transfer; 5+!Hs
++,                           2H, Jacoby transfer; 5+!Ss
++,                           2S, Both 4-card majors
++,                           2N, Natural; invitational
++,                           3C, long !C weak
++,                           3D, long !D weak
+1N(--|Db)2C--,           2D, denies 5-card major
++,                       2H, shows 5 !H
++,                       2S, shows 5 !S
+1N(--|Db)2C--2D--,       2H, shows 4 !S
++,                       2S, shows 4 !H
++,                       2N, invitational; usually denies 4-card major
++,                       3N, natural; usually denies 4-card major
+1N(--|Db)2C--**--,       3C, natural forcing
+1N(--|Db)2C--**--,       3D, natural forcing
+1N(--|Db),   4D, Texas transfer; 6+!Hs
++,           4H, Texas transfer; 6+!Ss
+. . . puppet for 2N opening or 2C--xx--2N opening
+. . . system on over double
+Alias,2Nopen.,(2C--**--|)2N(--|Db)
+,                  2N, 20-21 HCP; balanced; could have 5M
+2C--**--,          2N, 22-24 Balanced; could have 5M
+(2C--**--|)2N(--|Db),           3C, ask for 5-card major; could be weak
++,                 3D, Jacoby transfer; 5+!Hs
++,                 3H, Jacoby transfer; 5+!Ss
++,                 3S, Both 4-card majors
++,                 4D, Texas transfer; 6+!Hs
++,                 4H, Texas transfer; 6+!Ss
+(2C--**--|)2N(--|Db)3C--,     3D, denies 5-card major
++,                 3H, shows 5 !H
++,                 3S, shows 5 !S
+(2C--**--|)2N(--|Db)3C--3D--,    3H, shows 4 !S
++,                  3S, shows 4 !H
++,                  3N, natural; usually denies 4-card major
+
+,  3N, GAMBLING; solid minor; no outside A or K
+. . .
+... Support Double
+1[CDH]**1[DHS] **, Db, shows 3-card support for partner’s suit
+1[CDH]--1[DHS] Db, Rd, shows 3-card support for partner’s suit
+
+. . . 2C Opening
+,               2C, forcing; 4 or fewer losers or 22+ HCP Balanced
+2C--,           2D, at least 1 A or K
++,              2H, no A or K
++,              2S, 5!s with A or K
+
+. . .
+. . . New Minor Forcing
+1C--1[HS]--1N--,2D, forcing; might not show !d
+1D--1[HS]--1N--,2C, forcing; might not show !c
+. . . Weak Jump Shift
+1[CD]--, 2H, less than 6 HCP; usually 6 card suit
++,       2S, less than 6 HCP; usually 6 card suit
+1C 1D,   2H, less than 6 HCP; usually 6 card suit
+1[CD] 1H,  2S, less than 6 HCP; usually 6 card suit
+1C--,      2D, less than 6 HCP; usually 6 card suit
+1H--,      2S, less than 6 HCP; usually 6 card suit
+1S--,      3H, less than 6 HCP; usually 6 card suit
+
+. . .
+  Michaels
+1C(----)?, 2C, both majors
+1D(----)?, 2D, both majors
+1H(----)?, 2H, !S and a minor
+1S(----)?, 2S, !H and a minor
+1C--2C,    3C, both majors
+1D--2D?,   3D, both majors
+1H--2H,    3H, !S and a minor
+1H(----)?2H--, 2N, what is minor
+1S(----)?2S--, 2N, what is minor
+. . .
+. . . Unusual NT
+1[HS](----)?,   2N, two-suiter !C and !D
+1[C](----)?,    2N, two-suiter !D and !H
+1[D](----)?,    2N, two-suiter !C and !H
+. . . Splinter
+1H(--|Db|1S|2[CD]),    3S, good !H raise + shortness in !S
++,          4C, good !H raise + shortness in !C
++,          4D, good !H raise + shortness in !D
+1S(--|Db|2[CDH]),      4H, good !S raise + shortness in !H
++,          4C, good !S raise + shortness in !C
++,          4D, good !S raise + shortness in !D
+... splinter of responder bid
+1[CD]--1H__, 3S, good !h raise + shortness in !S
++.           4C, good !h raise + shortness in !C
++.           4D, good !h raise + shortness in !D
+1[CD]--1S__, 4C, good !s raise + shortness in !c
++.           4D, good !s raise + shortness in !d
++.           4H, good !s raise + shortness in !h
+
+. . . Jacoby 2NT
+1H(--|Db), 2N,    good !H raise; no singletons or void
+1S(--|Db), 2N,    good !S raise; no singletons or void
+1H(--|Db)--2N--, 3C, shortness in !C
++,               3D, shortness in !D
++,               3S, shortness in !S
+1S(--|Db)2N--,   3C, shortness in !C
++,               3D, shortness in !D
++,               3H, shortness in !H
+. . . Inverted Minor
+1C(--|1[DHSN]), 2C, limit raise or better in !C; forcing
++,              3C, 6-9 HCP
+1D(--|1[HSN]|2C), 2D, limit raise or better in !D; forcing
++,                3D, 6-9 HCP
+. . . Drury
+(----|------)1([HS])--, 2C, limit raise in !%C2%
+. . . Limit raise of overcall
+1C (|----) 1([DHS])__, 2C, limit raise or better in !%C2%
+1D (|----) 1([HS])__,  2D, limit raise or better in !%C2%
+1H (|----) 1([S])__,   2H, limit raise or better in !%C2%
+. . . Lebensohl over NT interference
+1N 2[CDHS],      2N, asks partner to bid 3!C, then I will show my suit
++,         2([DHS]), natural 5+!%C1%, not forcing
+1N 2[CDHS] 2N--, 3C, bid forced;  partner will show suit or pass
+. . .
+. . . Non Forcing new suit by responder (after interference)
+1C 1[HS], 2D, not forcing
+1D 1[HS], 2C, not forcing
+1[CD] 1S, 2H, not forcing
+1[CS] 2D, 2H, not forcing
+1[CH] 2D, 2S, not forcing
+1[CD] 2H, 2S, not forcing
+1[HS] 2C, 2D, not forcing
+1[DH] 2C, 2S, not forcing
+1[DS] 2C, 2H, not forcing
+1C 2[HS], 3D, not forcing
+1D 2[HS], 3C, not forcing
+1[CD] 2S, 3H, not forcing
+1[CS] 3D, 3H, not forcing
+1[CH] 3D, 3S, not forcing
+1[HS] 3C, 3D, not forcing
+1[DH] 3C, 3S, not forcing
+1[DS] 3C, 3H, not forcing
+. . .
+. . . Blackwood stuff
+//,4N,  Blackwood 5 key cards 
+/^[12]N--$/,4N, Quantitative slam try        ,except after NT opening
+/^2C--2[DH]--2N--$/,4N, Quantitative slam try        ,except after NT opening
+/4N--$/,5C, 0 or 3 key cards            ,response to Blackwood
+/4N--$/,5D, 1 or 4 key cards
+/4N--$/,5H, 2 or 5 key cards without trump Queen
+/4N--$/,5S, 2 or 5 key cards with trump Queen
+
+1C----1D--,2C,limit raise in !d,20210108_16:06 Deal 10
+1D--1H1S2C,2H,limit raise in spades,20210116_13:59 Deal 3
+
