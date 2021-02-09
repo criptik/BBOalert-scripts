@@ -2,7 +2,6 @@
 //# sourceURL=kbdBidOnDataLoad.js
 // Version 1.1
 
-
 class KBDBIDHELPER {
     constructor() {
         // if there is any old instance around, attempt to
@@ -29,7 +28,6 @@ class KBDBIDHELPER {
     onBiddingBoxDisplayed() {
         this.saveBiddingButtonElements();
         this.addKeyDownListener();
-        this.moveFocusToCardSurface();
     }
     
     onBiddingBoxHidden() {
@@ -54,14 +52,6 @@ class KBDBIDHELPER {
         }
     }
 
-    moveFocusToCardSurface() {
-        let elCardSurface = document.querySelector('.cardSurfaceClass');
-        if (elCardSurface != null) {
-            elCardSurface.tabIndex = 0;
-            elCardSurface.focus();
-        }
-    }
-    
     // set up button index map
     initButtonIndexMap() {
         let map = new Map();
@@ -212,10 +202,10 @@ class KBDBIDHELPER {
         if (!window.biddingBoxDisplayed || (e.target.nodeName == 'INPUT')) {
             return;
         }
-        if ((this.elDealViewerDiv == null) || !this.elDealViewerDiv.contains(e.target)) {
+        if (!this.inKbdEntryFocus(e.target)) {
             return;
         }
-        
+    
         let ukey = e.key.toUpperCase();
         this.logIfVerbose(`ukey=${ukey}`);
 
@@ -326,6 +316,24 @@ class KBDBIDHELPER {
             this.logIfVerbose('Keyboard bidding listener removed');
         }
     }
+
+    inKbdEntryFocus(elem) {
+        return ((this.elDealViewerDiv != null) && this.elDealViewerDiv.contains(elem));
+    }
+
+
+    moveFocusTo(elDest) {
+        if (elDest != null) {
+            if ((elDest.tabIndex === undefined) || (elDest.tabIndex < 0)) {
+                elDest.tabIndex = 0;
+            }
+            setTimeout(function () {
+                elDest.focus();
+                // console.log(`focus is now on ${document.activeElement}`); 
+            }, 200);
+        }
+    }
+    
 } // end of class declaration
 
 window.KBDBIDHELPERINSTANCE = new KBDBIDHELPER();
@@ -333,8 +341,6 @@ window.KBDBIDHELPERINSTANCE = new KBDBIDHELPER();
 
 //Script,onBiddingBoxDisplayed
 //# sourceURL=kbdBidOnBoxDisplayed.js
-// main code, create a new instance on each onBiddingBoxDisplayed Event
-// and attach the listener
 window.KBDBIDHELPERINSTANCE.onBiddingBoxDisplayed();
 //Script
 
@@ -342,3 +348,4 @@ window.KBDBIDHELPERINSTANCE.onBiddingBoxDisplayed();
 //# sourceURL=kbdBidOnBoxHidden.js
 window.KBDBIDHELPERINSTANCE.onBiddingBoxHidden();
 //Script
+

@@ -184,5 +184,18 @@ Alias,2Nopen.,(2C--**--|)2N(--|Db)
 /4N--$/,5H, 2 or 5 key cards without trump Queen
 /4N--$/,5S, 2 or 5 key cards with trump Queen
 
-Script,KbdFocus,window.KBDBIDHELPERINSTANCE.moveFocusToCardSurface();
+Script,KbdFocus,window.KBDBIDHELPERINSTANCE.moveFocusTo(document.querySelector('.cardSurfaceClass'));
 Shortcut,AltZ,%KbdFocus%
+Script,chatToTournament
+	var t = window.getChatMessage().slice(0, -2);
+	if (!t.endsWith('\\n')) t = t + '\\n';
+	var od = $('#chatDiv .messageInputDivClass .channelButtonClass')[0].textContent;
+	window.setChatDestination('→Tournament');
+	var cd = $('#chatDiv .getStringDialogClass .messageInputClass');
+	var bt = $('#chatDiv .getStringDialogClass button');
+	setTimeout(function () {
+		window.setChatMessage(t, true);
+		window.setChatDestination(od);
+	}, 500);
+Script
+Shortcut,TC,%chatToTournament%
