@@ -1,7 +1,7 @@
 all: alertBase.txt kbdBidSupport.js
 	cat $^ | xclip -selection clipboard
 
-all_new: alertBase.txt kbdBidSupport.js onNewPlayer.js
+all_focus: alertBase.txt kbdBidSupport.js kbdAutoFocus.js
 	cat $^ | xclip -selection clipboard
 
 all_large: alertBase.txt kbdBidSupport.js LARGE_BIDDING_BOX.txt
