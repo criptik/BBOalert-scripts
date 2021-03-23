@@ -26,6 +26,11 @@ class AutoFocusHelper {
     //autofocus stuff
     onAuctionBoxDisplayed() {
         this.elDealViewerDiv = document.querySelector('.dealViewerDivClass');
+        if (this.elDealViewerDiv != null) {
+            for (let el of document.querySelectorAll('.dealViewerDivClass *')) {
+                el.style.cursor = 'crosshair';
+            }
+        }
         this.myDirection = window.mySeat();
         this.declDir = null;
         this.lastActivePlayer = null;
@@ -36,7 +41,7 @@ class AutoFocusHelper {
     onAuctionBoxHidden() { 
         let elTrickPanels = document.querySelectorAll('.tricksPanelTricksLabelClass');
         this.declDir = (elTrickPanels.length > 0) ? elTrickPanels[0].innerText[0] : '';
-        console.log(`declDir detected as ${this.declDir}`);
+        this.logIfVerbose(`declDir detected as ${this.declDir}`);
         this.addKeyDownListener();
         this.addKeyUpListener();
     }
@@ -82,11 +87,8 @@ class AutoFocusHelper {
     }
 
     onNewActivePlayer() {
-        console.log(`start: act=${window.activePlayer}, last=${this.lastActivePlayer}`);
+        this.logIfVerbose(`start: act=${window.activePlayer}, last=${this.lastActivePlayer}`);
         if (window.activePlayer == this.lastActivePlayer) return;
-        if (window.activePlayer == 'Ncriptik') {
-            console.log('here');
-        }
         this.lastActivePlayer = window.activePlayer;
         
         // always ignore if we have already entered some Input somewhere
@@ -112,16 +114,24 @@ class AutoFocusHelper {
             }
                 
         }
-        console.log(`onNewPlayer: ${window.activePlayer} actElem=${document.activeElement.nodeName}, onCardTable=${onCardTable}, onChat=${onChat}, NEI=${nonEmptyInput}, ${isMe}, ${this.isMeActive}`);
+        this.logIfVerbose(`onNewPlayer: ${window.activePlayer} actElem=${document.activeElement.nodeName}, onCardTable=${onCardTable}, onChat=${onChat}, NEI=${nonEmptyInput}, ${isMe}, ${this.isMeActive}`);
         // detect a change
         if (isMe !== this.isMeActive) {
             this.isMeActive = isMe;
             // only move focus if we are in certain locations
             if (!nonEmptyInput && (onCardTable || onChat || (document.activeElement.nodeName == 'BODY'))) {
-                let elDest = (isMe) ? document.querySelector('.cardSurfaceClass') : window.getChatInput();
-                elDest.style.cursor = 'crosshair';
-                if ((elDest == window.getChatInput()) && this.needKeyUp) {
-                    this.focusChatOnKeyUp = true;
+                let elDest;
+                if (isMe) {
+                    elDest = document.querySelector('.cardSurfaceClass');
+                }
+                else {
+                    elDest = window.getChatInput();
+                    elDest.style.caretColor = 'red';
+                    if (this.needKeyUp) {
+                        // if keyup not seen yet, delay setting focus
+                        this.focusChatOnKeyUp = true;
+                        return;
+                    }
                 }
                 this.moveFocusTo(elDest);
                 // elDest.click();
@@ -141,7 +151,7 @@ class AutoFocusHelper {
             }
             setTimeout(function () {
                 elDest.focus();
-                console.log(`focus is now on ${document.activeElement}`); 
+                this.logIfVerbose(`focus is now on ${document.activeElement}`); 
             }, 500);
         }
     }

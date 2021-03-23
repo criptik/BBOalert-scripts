@@ -1,4 +1,4 @@
-BBOalert, Gul-Tom System<br>Version 20210205<br>
+BBOalert, Gul-Tom System<br>Version 20210305<br>
 Option, Gul-Tom
 Shortcut,HH, Hi opps; mostly sayc here with puppet stayman; standard carding
 Shortcut,RB, If you see a sitout pair at your table they will be replaced with robots shortly
@@ -6,6 +6,8 @@ Shortcut,RB, If you see a sitout pair at your table they will be replaced with r
 Script,C1,R = C.match(makeRegExp(CR))[1];
 Script,C2,R = C.match(makeRegExp(CR))[2];
 Script,C3,R = C.match(makeRegExp(CR))[3];
+Script,B1,R = B.match(makeRegExp(CR))[1];
+Script,B2,R = B.match(makeRegExp(CR))[2];
 
 Script,4thSuit,if ((new Set((C+B).match(/[CDHS]/g))).size == 4) R=`4th suit forcing; might not have !${B[1]}`
 __--__--__--,__,%4thSuit%
@@ -90,6 +92,7 @@ Alias,2Nopen.,(2C--**--|)2N(--|Db)
 1H--,      2S, less than 6 HCP; usually 6 card suit
 1S--,      3H, less than 6 HCP; usually 6 card suit
 . . . After weak 2 opening
+,              2([DHS]), 5-11 HCP; usually 6 card suit in !%B1%
 2[DHS]--,      2[HS],  natural, not forcing
 2[DHS]--,      2N, forcing; ask for feature (outside K or A)
 2[DHS]--2N--,  3C,  A or K in !C
@@ -187,12 +190,10 @@ Alias,2Nopen.,(2C--**--|)2N(--|Db)
 Script,KbdFocus,window.KBDBIDHELPERINSTANCE.moveFocusTo(document.querySelector('.cardSurfaceClass'));
 Shortcut,AltZ,%KbdFocus%
 Script,chatToTournament
-	var t = window.getChatMessage().slice(0, -2);
+	var t = window.getChatMessage().slice(0, -2);  //remove TC part
 	if (!t.endsWith('\\n')) t = t + '\\n';
 	var od = $('#chatDiv .messageInputDivClass .channelButtonClass')[0].textContent;
 	window.setChatDestination('→Tournament');
-	var cd = $('#chatDiv .getStringDialogClass .messageInputClass');
-	var bt = $('#chatDiv .getStringDialogClass button');
 	setTimeout(function () {
 		window.setChatMessage(t, true);
 		window.setChatDestination(od);
