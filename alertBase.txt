@@ -1,18 +1,27 @@
-BBOalert, Gul-Tom System<br>Version 20210305<br>
+BBOalert, Gul-Tom System<br>Version 20210326<br>
 Option, Gul-Tom
 Shortcut,HH, Hi opps; mostly sayc here with puppet stayman; standard carding
-Shortcut,RB, If you see a sitout pair at your table they will be replaced with robots shortly
+Shortcut,SO, If you see a sitout pair at your table they will be replaced with robots shortly
+Shortcut,IN, Remember to self-alert on BBO.  If you call the director, include a reason.
 . . . script to get first or 2nd match
 Script,C1,R = C.match(makeRegExp(CR))[1];
 Script,C2,R = C.match(makeRegExp(CR))[2];
 Script,C3,R = C.match(makeRegExp(CR))[3];
-Script,B1,R = B.match(makeRegExp(CR))[1];
-Script,B2,R = B.match(makeRegExp(CR))[2];
+Script,B1,R = B.match(makeRegExp(BR))[1];
+Script,B2,R = B.match(makeRegExp(BR))[2];
+. . . get bid suit
+Script,BS,R = B[1]
 
 Script,4thSuit,if ((new Set((C+B).match(/[CDHS]/g))).size == 4) R=`4th suit forcing; might not have !${B[1]}`
+Script,weak2Query
+let weak2Suit = C.match(makeRegExp(CR))[1];
+let bidSuit = B[1];
+R = (bidSuit == weak2Suit) ? 'No outside A or K' :  `A or K in !${bidSuit}`;
+Script
+
 __--__--__--,__,%4thSuit%
 ... exception to 4th suit forcing
-1C--1D--1H--,1S, natural; at least 4 !s
+1C--1D--1H--,1S, natural; at least 4 !S
 
 ... Cappelletti
 1N(----)?,        Db,  Penalties
@@ -83,26 +92,23 @@ Alias,2Nopen.,(2C--**--|)2N(--|Db)
 . . . New Minor Forcing
 1C--1[HS]--1N--,2D, forcing; might not show !d
 1D--1[HS]--1N--,2C, forcing; might not show !c
+1C--1[HS]--2N--,3D, forcing; might not show !d
+1D--1[HS]--2N--,3C, forcing; might not show !c
+. . . NMF over minor rebid?
+1C--1[HS]--2C--,2D, forcing; might not show !d
+1D--1[HS]--2D--,3C, forcing; might not show !c
 . . . Weak Jump Shift
-1[CD]--, 2H, less than 6 HCP; usually 6 card suit
-+,       2S, less than 6 HCP; usually 6 card suit
-1C 1D,   2H, less than 6 HCP; usually 6 card suit
-1[CD] 1H,  2S, less than 6 HCP; usually 6 card suit
-1C--,      2D, less than 6 HCP; usually 6 card suit
-1H--,      2S, less than 6 HCP; usually 6 card suit
-1S--,      3H, less than 6 HCP; usually 6 card suit
+1[CD]--, 2[HS], less than 6 HCP; usually 6 card !%BS%! suit
+1C 1D,   2H, less than 6 HCP; usually 6 card !H suit
+1[CD] 1H,  2S, less than 6 HCP; usually 6 card !S suit
+1C--,      2D, less than 6 HCP; usually 6 card !D suit
+1H--,      2S, less than 6 HCP; usually 6 card !S suit
+1S--,      3H, less than 6 HCP; usually 6 card !H suit
 . . . After weak 2 opening
-,              2([DHS]), 5-11 HCP; usually 6 card suit in !%B1%
+,              2[DHS], 5-11 HCP; usually 6 card suit in !%BS%
 2[DHS]--,      2[HS],  natural, not forcing
 2[DHS]--,      2N, forcing; ask for feature (outside K or A)
-2[DHS]--2N--,  3C,  A or K in !C
-2[HS]--2N--,   3D,  A or K in !D
-2[DS]--2N--,   3H,  A or K in !H
-2[DH]--2N--,   3S,  A or K in !S
-2D--2N--,      3D,  no outside A or K
-2H--2N--,      3H,  no outside A or K
-2S--2N--,      3S,  no outside A or K
-
+2([DHS])--2N--,  3[CDHS],%weak2Query%
 . . .
   Michaels
 1C(----)?, 2C, both majors
@@ -120,34 +126,24 @@ Alias,2Nopen.,(2C--**--|)2N(--|Db)
 1[C](----)?,    2N, two-suiter !D and !H
 1[D](----)?,    2N, two-suiter !C and !H
 . . . Splinter
-1H(--|Db|1S|2[CD]),    3S, good !H raise + shortness in !S
-+,          4C, good !H raise + shortness in !C
-+,          4D, good !H raise + shortness in !D
-1S(--|Db|2[CDH]),      4H, good !S raise + shortness in !H
-+,          4C, good !S raise + shortness in !C
-+,          4D, good !S raise + shortness in !D
+1H(--|Db|1S|2[CD]),    (3S|4C|4D), good !H raise + shortness in !%BS%
+1S(--|Db|2[CDH]),      4[CDH], good !S raise + shortness in !%BS%
 ... splinter of responder bid
-1[CD]--1H__, 3S, good !h raise + shortness in !S
-+.           4C, good !h raise + shortness in !C
-+.           4D, good !h raise + shortness in !D
-1[CD]--1S__, 4C, good !s raise + shortness in !c
-+.           4D, good !s raise + shortness in !d
-+.           4H, good !s raise + shortness in !h
+1[CD]--1H__, (3S|4C|4D), good !h raise + shortness in !%BS%
+1[CD]--1S__, 4[CDH], good !s raise + shortness in !%BS%
 
 . . . Jacoby 2NT
 1H(--|Db), 2N,    good !H raise; no singletons or void
 1S(--|Db), 2N,    good !S raise; no singletons or void
-1H(--|Db)--2N--, 3C, shortness in !C
-+,               3D, shortness in !D
-+,               3S, shortness in !S
-1S(--|Db)2N--,   3C, shortness in !C
-+,               3D, shortness in !D
-+,               3H, shortness in !H
+1H(--|Db)2N--, 3[CDS], shortness in !%BS%
+1S(--|Db)2N--, 3[CDH], shortness in !%BS%
 . . . Inverted Minor
 1C(--|1[DHSN]), 2C, limit raise or better in !C; forcing
 +,              3C, 6-9 HCP
 1D(--|1[HSN]|2C), 2D, limit raise or better in !D; forcing
 +,                3D, 6-9 HCP
+----1C(--|1[DHSN]), 2C, limit raise in !C
+----1D(--|1[HSN]|2C), 2D, limit raise in !D
 . . . Drury
 (----|------)1([HS])--, 2C, limit raise in !%C2%
 . . . Limit raise of overcall
