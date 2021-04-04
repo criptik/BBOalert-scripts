@@ -1,5 +1,5 @@
 //Script,onDataLoad
-//# sourceURL=unittest.js
+//# sourceURL=alertTester.js
 
 class ALERTTESTER {
     // copied some stuff from execUserScript so we can use our own ctx and bid
@@ -58,9 +58,17 @@ class ALERTTESTER {
         let prevctx, prevbid, prevexp, numtests, failures;
         numtests = failures = 0;
         prevbid = prevctx = prevexp = '';
-        for (let singleTest of tests) {
+        let testLines = tests.split('\n');
+        for (let line of testLines) {
             numtests++;
-            let [ctx, bid, exp] = singleTest;
+            let fields = line.split(',').slice(1);  // ignore first 'T' field
+            if (fields.length < 3) continue;   // comment, ignore
+            for (let n = 0; n < fields.length; n++) {
+                fields[n] = fields[n].trim();
+            }
+            let [ctx, bid, exp] = fields;
+            //console.log(numtests, ctx, bid, exp);
+            //continue;
             ctx = window.elimineSpaces(ctx);
             if (ctx == '+') ctx = prevctx;
             if (bid == '+') bid = prevbid;
@@ -82,42 +90,8 @@ class ALERTTESTER {
         this.logMessage(summaryMsg);
         window.addBBOalertLog(summaryMsg + '<br>');
         if (failures > 0) {
-            window.addBBOalertLog('see Export All or Console for details <br>');
+            window.addBBOalertLog('see Export Log or Console.log for details <br>');
         }
     }
 } // end of class
-
-tests = [
-    ['', '1N', '15-17 Balanced could have 5!H or 5!S'],
-    ['--', '+', '+'],
-    ['----', '+', '15-17 Balanced no 5M'],
-    ['------', '+', '+'],
-    ['--1N--', '2C', 'ask for 5-card major; could be weak'],
-    ['1N--',   '+',  '+'],
-    ['1H--2C--2D--',  '2S',  '4th suit forcing; might not have !S'],
-    ['--1H--2C--2D--',  '2S',  '4th suit forcing; might not have !S'],
-    ['----1H--2C--2D--',  '2S',  '4th suit forcing; might not have !S'],
-    ['------1H--2C--2D--',  '2S',  '4th suit forcing; might not have !S'],
-    ['1C--1D--1H--',  '2S',  '4th suit forcing; might not have !S'],
-    ['1C--1D--1H--',  '1S',  'natural; at least 4 !S'],
-    ['1H--', '2N', 'good !H raise; no singletons or void'],
-    ['1H--2N--', '3C', 'shortness in !c'],
-    // test no alert
-    ['', '1H', ''],
-];
-// add some tests programatically
-for (let wk2suit of 'DHS') {
-    for (let queryRespSuit of 'CDHS') {
-        let alertText;
-        if (queryRespSuit == wk2suit) {
-            alertText = 'No outside A or K';
-        }
-        else {
-            alertText = `A or K in !${queryRespSuit}`;
-        }
-        tests.push([`2${wk2suit}--2N--`, `3${queryRespSuit}`, alertText]);
-    }
-}
-ALERTTESTER.runTests(tests);
-
 //Script

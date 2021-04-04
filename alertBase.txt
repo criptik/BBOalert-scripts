@@ -1,4 +1,4 @@
-BBOalert, Gul-Tom System<br>Version 20210326<br>
+BBOalert, Gul-Tom System<br>Version 20210402<br>
 Option, Gul-Tom
 Shortcut,HH, Hi opps; mostly sayc here with puppet stayman; standard carding
 Shortcut,SO, If you see a sitout pair at your table they will be replaced with robots shortly
