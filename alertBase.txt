@@ -3,6 +3,10 @@ Option, Gul-Tom
 Shortcut,HH, Hi opps; mostly sayc here with puppet stayman; standard carding
 Shortcut,SO, If you see a sitout pair at your table they will be replaced with robots shortly
 Shortcut,IN, Remember to self-alert on BBO.  If you call the director, include a reason.
+Shortcut,CL1, This is a clocked tournament so we all move when the slowest table has finished.
+Shortcut,CL2, Please keep things moving and claim when possible.  Remember if the clock runs out,
+Shortcut,CL3, any hand in progress will end immediately and get an average. So keep an eye on the clock.
+Shortcut,CL4, Your director may be able to adjust terminated boards to the "likely result" but no promises.
 . . . script to get first or 2nd match
 Script,C1,R = C.match(makeRegExp(CR))[1];
 Script,C2,R = C.match(makeRegExp(CR))[2];

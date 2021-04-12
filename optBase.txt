@@ -1,0 +1,20 @@
+BBOalert, OptTest<br>Version 20210412<br>
+. . . get bid suit
+Script,BS,R = B[1]
+Option,A Off
+,1[CD],natural minor suit opening
+Option,A 12
+,1[CD],12 HCP in !%BS%
+Option,A 13
+,1[CD],13 HCP in !%BS%
+Option,A 14
+,1[CD],14 HCP in !%BS%
+Option
+Option,B Off
+Option,B_@n
+,2[CD],12 HCP in !%BS%
+Option,B_@N
+,2[CD],13 HCP in !%BS%
+Option,B_@V
+,2[CD],14 HCP in !%BS%
+Option
