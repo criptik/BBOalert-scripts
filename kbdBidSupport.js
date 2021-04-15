@@ -1,5 +1,5 @@
 //Script,onDataLoad
-//# sourceURL=kbdBidOnDataLoad.js
+//# sourceURL=kbdBidSupport.js
 // Version 1.1
 
 window.KBDBIDHELPER = class {
@@ -335,17 +335,4 @@ window.KBDBIDHELPER = class {
     }
     
 } // end of class declaration
-
-window.KBDBIDHELPERINSTANCE = new window.KBDBIDHELPER();
 //Script
-
-//Script,onBiddingBoxDisplayed
-//# sourceURL=kbdBidOnBoxDisplayed.js
-window.KBDBIDHELPERINSTANCE.onBiddingBoxDisplayed();
-//Script
-
-//Script,onBiddingBoxHidden
-//# sourceURL=kbdBidOnBoxHidden.js
-window.KBDBIDHELPERINSTANCE.onBiddingBoxHidden();
-//Script
-

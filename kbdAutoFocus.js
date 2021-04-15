@@ -1,5 +1,5 @@
 //Script,onDataLoad
-//# sourceURL=autoFocusOnDataLoad.js
+//# sourceURL=kbdAutoFocus.js
 // Version 1.0
 
 window.AUTOFOCUSHELPER = class {
@@ -157,20 +157,4 @@ window.AUTOFOCUSHELPER = class {
     }
 } // end of class declaration
 
-window.AUTOFOCUSHELPERINSTANCE = new window.AUTOFOCUSHELPER();
-//Script
-
-//Script,onNewActivePlayer
-//# sourceURL=autoFocusOnNewActivePlayer.js
-window.AUTOFOCUSHELPERINSTANCE.onNewActivePlayer();
-//Script
-
-//Script,onAuctionBoxDisplayed
-//# sourceURL=autoFocusOnAuctionBoxDisplayed.js
-window.AUTOFOCUSHELPERINSTANCE.onAuctionBoxDisplayed();
-//Script
-
-//Script,onAuctionBoxHidden
-//# sourceURL=autoFocusOnAuctionBoxHidden.js
-window.AUTOFOCUSHELPERINSTANCE.onAuctionBoxHidden();
 //Script
