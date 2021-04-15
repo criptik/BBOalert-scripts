@@ -2,7 +2,7 @@
 //# sourceURL=autoFocusOnDataLoad.js
 // Version 1.0
 
-class AutoFocusHelper {
+window.AUTOFOCUSHELPER = class {
     constructor() {
         // if there is any old listeners around, attempt to remove them
         try {
@@ -157,7 +157,7 @@ class AutoFocusHelper {
     }
 } // end of class declaration
 
-window.AUTOFOCUSHELPERINSTANCE = new AutoFocusHelper();
+window.AUTOFOCUSHELPERINSTANCE = new window.AUTOFOCUSHELPER();
 //Script
 
 //Script,onNewActivePlayer

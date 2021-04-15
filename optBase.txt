@@ -1,7 +1,7 @@
 BBOalert, OptTest<br>Version 20210412<br>
 . . . get bid suit
 Script,BS,R = B[1]
-Option,A Off
+Option,A Off, criptik+basshunter
 ,1[CD],natural minor suit opening
 Option,A 12
 ,1[CD],12 HCP in !%BS%

@@ -2,7 +2,7 @@
 //# sourceURL=kbdBidOnDataLoad.js
 // Version 1.1
 
-class KBDBIDHELPER {
+window.KBDBIDHELPER = class {
     constructor() {
         // if there is any old instance around, attempt to
         // remove its listener if any (ignore errors)
@@ -336,7 +336,7 @@ class KBDBIDHELPER {
     
 } // end of class declaration
 
-window.KBDBIDHELPERINSTANCE = new KBDBIDHELPER();
+window.KBDBIDHELPERINSTANCE = new window.KBDBIDHELPER();
 //Script
 
 //Script,onBiddingBoxDisplayed

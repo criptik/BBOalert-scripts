@@ -156,7 +156,7 @@ Alias,2Nopen.,(2C--**--|)2N(--|Db)
 1H (|----) 1([S])__,   2H, limit raise or better in !%C2%
 . . . Lebensohl over NT interference
 1N 2[CDHS],      2N, asks partner to bid 3!C, then I will show my suit
-+,         2([DHS]), natural 5+!%C1%, not forcing
++,         2([DHS]), natural 5+!%BS%, not forcing
 1N 2[CDHS] 2N--, 3C, bid forced;  partner will show suit or pass
 . . .
 . . . Non Forcing new suit by responder (after interference)
