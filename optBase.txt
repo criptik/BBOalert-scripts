@@ -11,6 +11,7 @@ Option,A 14
 ,1[CD],14 HCP in !%BS%
 Option
 Option,B Off
+,2[CD],natural 2 of a minor
 Option,B_@n
 ,2[CD],12 HCP in !%BS%
 Option,B_@N

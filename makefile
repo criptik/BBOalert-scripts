@@ -1,18 +1,15 @@
 TESTER_SCRIPTS=alertTester.js myunittests.js
 
-all_dev: alertBase.txt kbdBidSupport.js kbdBidSupportScript.js kbdAutoFocus.js kbdAutoFocusScript.js $(TESTER_SCRIPTS)
-	#use local file rather than url
-	cat kbdBidSupport.js kbdBidSupportScript.js | grep -v '//Javascript' > kbdBidSupportScript.dev
-	cat kbdAutoFocus.js kbdAutoFocusScript.js | grep -v '//Javascript' > kbdAutoFocusScript.dev
-	cat alertBase.txt kbdBidSupportScript.dev  kbdAutoFocusScript.dev $(TESTER_SCRIPTS) | xclip -selection clipboard
+LOCAL_JS=kbdBidSupport.js kbdBidSupportScript.js kbdAutoFocus.js kbdAutoFocusScript.js alertTester.js myunittests.js
+#use local file rather than url
+all_dev: alertBase.txt $(LOCAL_JS)
+	cat $(LOCAL_JS) | grep -v '//Javascript' >local.dev
+	cat alertBase.txt local.dev | xclip -selection clipboard
 
-all_url: alertBase.txt kbdBidSupport.url kbdAutoFocus.url alertTester.url myunittests.js
+all_url: alertBase.txt kbdBidSupportScript.js kbdAutoFocusScript.js myunittests.js
 	cat $^ | xclip -selection clipboard
 
 null: null.data
-	cat $^ | xclip -selection clipboard
-
-all_large: alertBase.txt kbdBidSupport.js LARGE_BIDDING_BOX.txt $(TESTER_SCRIPTS)
 	cat $^ | xclip -selection clipboard
 
 opttest: optBase.txt alertTester.js optunittests.js
