@@ -1,8 +1,10 @@
+# alertTester Readme
+
 The alertTester script allows one to test whether your BBOalert rules
 produce the alert text that you expect.  You specify a bidding context
 (i.e., bidding history) and a new bid and the script will figure out
 what alert text would be generated for the combination of that context
-and that bid.
+and that bid.  It is also possible to control which option blocks get used for specific test commands.
 
 When you add new rules to BBOalert, you often want to check for their
 correctness, especially when the rules involve using a script or a
@@ -14,16 +16,19 @@ The testing can be done as in this example which runs 3 Drury-related
 tests (The third test line below checks that 2C after third-seat 1D
 does NOT cause an alert.):
 
-Script,onDataLoad
-Javascript,https://raw.githubusercontent.com/criptik/BBOalert-scripts/main/alertTester.js
+```javascript
+//Script,onDataLoad
+//Javascript,https://raw.githubusercontent.com/criptik/BBOalert-scripts/main/alertTester.js
 let tests = `
 T, ----1H--,   2C, limit raise in !H
 T, ------1S--, 2C, limit raise in !S
 T, ----1D--,   2C, 
 `;
 window.ALERTTESTER.runTests(tests);
-Script
+//Script
+```
 
+## Details
 ALERTTESTER.runTests takes a string consisting of multiple test lines.
 (In javascript, surrounding text with backquotes as above is one way to
 declare multi-line strings.)
@@ -31,30 +36,27 @@ declare multi-line strings.)
 Each test line consists of a comma separated list consisting of a
 command field and a list of fields specific to that command.
 
-<command>
-   There are two commands supported:
-      * T, <context>, <call>, <explanation> 
-          whicih tests a specific context and bid combination.
+There are two commands supported:
+* T, context, call, explanation 
+  * whicih tests a specific context and bid combination.
 
-      * SetOptions, Option, Option, ...
-          is used to force enable option blocks
+* SetOptions, Option, Option, ...
+  * is used to force enable option blocks
       
-command == 'T':
----------------
-   fields are <context>, <call>, <explanation>.  These have similar
+### command == 'T':
+   fields are `<context>, <call>, <explanation>`.  These have similar
    meanings to the normal BBOalert data lines, but each field must
    explicitly state a single string.  Wildcards, regular expressions
    or script calls are not allowed.
 
-   <context> can be blank meaning the <call> is the opening bid.
+   `<context>` can be blank meaning the `<call>` is the opening bid.
 
-   <explanation> can be blank, meaning that no alert is generated.
+   `<explanation>` can be blank, meaning that no alert is generated.
 
    Any of the three fields can be '+' to mean reuse the corresponding
    field from the previous test line.
 
-command == 'SetOptions':
-------------------------
+### command == 'SetOptions':
    fields are a comma-separated list of option names, i.e. names of
    option blocks in your BBOalert data. Each listed option name will
    enable that block in your BBOalert data.  Note that vulnerability
@@ -74,8 +76,9 @@ command == 'SetOptions':
    So if SetOptions is not used or if SetOptions is used without
    any fields, the "Startup Option Config" is what is enabled.
 
-   Two adjacent SetOptions command lines are treated the same as if all
-   the options were on a single SetOptions command line.
+   To help with setting many options, multiple adjacent SetOptions
+   command lines are treated the same as if all the options were on a
+   single SetOptions command line.
 
 ## Reporting Results
 runTests produces a summary line of successes and failures in the
