@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+    <body>
+        <a href="https://github.com/criptik/BBOalert-scripts/blob/main/alertTester.Readme.md"  target="_blank" class="button"> Full Readme instructions on github</a>
+        <br>
+        <br>
+        <h3> Example Usage </h3>
+        <pre>
+//Script,onDataLoad
+//Javascript,https://raw.githubusercontent.com/criptik/BBOalert-scripts/main/alertTester.js
+let tests = `
+T, ----1H--,   2C, limit raise in !H
+T, ------1S--, 2C, limit raise in !S
+T, ----1D--,   2C, 
+`;
+window.ALERTTESTER.runTests(tests);
+//Script
+        </pre>
+
+    </body>
+</html>
+            
