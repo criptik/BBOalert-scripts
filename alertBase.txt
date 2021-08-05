@@ -1,4 +1,4 @@
-BBOalert, Gul-Tom System<br>Version 20210415<br>
+BBOalert, Gul-Tom System<br>Version 20210805<br>
 Option, Gul-Tom On, criptik+rukh, criptik
 Shortcut,HH, Hi opps; mostly sayc here with puppet stayman; standard carding
 Shortcut,SO, If you see a sitout pair at your table they will be replaced with robots shortly
@@ -136,11 +136,14 @@ Alias,2Nopen.,(2C--**--|)2N(--|Db)
 1[CD]--1H__, (3S|4C|4D), good !h raise + shortness in !%BS%
 1[CD]--1S__, 4[CDH], good !s raise + shortness in !%BS%
 
-. . . Jacoby 2NT
+. . . Jacoby 2NT (will not be used for 3rd or 4th suit major suit opening)
 1H(--|Db), 2N,    good !H raise; no singletons or void
 1S(--|Db), 2N,    good !S raise; no singletons or void
 1H(--|Db)2N--, 3[CDS], shortness in !%BS%
 1S(--|Db)2N--, 3[CDH], shortness in !%BS%
+(----|------)1([HS])(--|Db), 2N, natural
+(----|------)1H(--|Db)2N--,  3[CDS], natural
+(----|------)1S(--|Db)2N--,  3[CDH], natural
 . . . Inverted Minor
 1C(--|1[DHSN]), 2C, limit raise or better in !C; forcing
 +,              3C, 6-9 HCP
