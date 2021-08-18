@@ -2,9 +2,14 @@ TESTER_SCRIPTS=alertTester.js myunittests.js
 
 # LOCAL_JS=kbdBidSupport.js kbdBidSupportScript.js kbdAutoFocus.js kbdAutoFocusScript.js alertTester.js myunittests.js
 LOCAL_JS=kbdBidSupport.js kbdBidSupportScript.js kbdAutoFocus.js kbdAutoFocusScript.js 
+LOCAL_JS_TEST=$(LOCAL_JS) alertTester.js myunittests.js
 #use local file rather than url
 all_dev: alertBase.txt $(LOCAL_JS)
 	cat $(LOCAL_JS) | grep -v '//Javascript' >local.dev
+	cat alertBase.txt local.dev | xclip -selection clipboard
+
+all_test: alertBase.txt $(LOCAL_JS_TEST)
+	cat $(LOCAL_JS_TEST) | grep -v '//Javascript' >local.dev
 	cat alertBase.txt local.dev | xclip -selection clipboard
 
 all_url: alertBase.txt kbdBidSupportScript.js kbdAutoFocusScript.js myunittests.js

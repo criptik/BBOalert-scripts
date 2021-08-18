@@ -1,36 +1,7 @@
 //Script,onDataLoad
 //# sourceURL=alertTester.js
 
-
 window.ALERTTESTER = class {
-    // copied some stuff from execUserScript so we can use our own ctx and bid
-    static execUserScript(txt, ctx, bid) {
-        try {
-            // console.log('in myExecUserScript', ctx, bid);
-            var rec = txt.split('%');
-            if (rec.length < 2) return txt;
-            var txt1 = '';
-            var script;
-            for (var i = 0; i < rec.length; i++) {
-                if (i % 2 == 0) {
-                    txt1 = txt1 + rec[i];
-                } else {
-                    script = getScript(rec[i]);
-                    if (script != '') {
-                        txt1 = txt1 + window.userScript(script, window.foundContext, ctx, window.foundCall, bid);
-                    } else {
-                        txt1 = txt1 + "%" + rec[i];
-                        if (i < rec.length - 1) txt1 = txt1 + "%";
-                    }
-                }
-            }
-            return txt1;
-        } catch(err) {
-            console.log('myExecUserScript', err);
-            return 'ERROR';
-        }
-    }
-
     static logMessage(msg) {
         window.addLog(msg);
         console.log(msg);
@@ -44,11 +15,14 @@ window.ALERTTESTER = class {
     }
 
     static getAlertFor(ctx, bid) {
-        // call into BBOAlert findAlert but then use our own execUserScript
+        // call into BBOAlert findAlert but using our own parameters to userScript
         try {
+	    window.userScript = function(S, CR, C, BR, B) {
+		return window.ALERTTESTER.orig_userScript(S, CR, ctx, BR, bid);
+	    };
             let alertText = window.findAlert(ctx, bid);
-            alertText = this.execUserScript(alertText, ctx, bid);
             alertText = this.ignoreSuitCase(alertText);
+	    window.userScript = window.ALERTTESTER.orig_userScript;
             return alertText;
         } catch (err) {
             console.log('getAlertFor', err);
@@ -192,4 +166,7 @@ window.ALERTTESTER = class {
         }
     }
 } // end of class
+
+window.ALERTTESTER.orig_userScript = window.userScript;
+
 //Script
