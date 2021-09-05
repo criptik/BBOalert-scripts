@@ -25,14 +25,14 @@ R = (bidSuit == weak2Suit) ? 'No outside A or K' :  `A or K in !${bidSuit}`;
 Script
 
 ... 4th suit only if no splinters etc.
-__--[12][CDHS]--__--,__,%4thSuit%
+(|--|----|------)1[CDHS]--[12][CDHS]--__--,__,%4thSuit%
 ... exception to 4th suit forcing
 1C--1D--1H--,1S, natural; at least 4 !S
-... exception to 4th suit forcing because of Drury
-1S--2C--2H--,3D, natural
-1S--2C--2D--,3H, natural
-1H--2C--2S--,3D, natural
-1H--2C--2D--,2S, natural
+... exception to 4th suit forcing because of Drury (3rd/4th suit opening)
+(----|------)1S--2C--2H--,3D, natural
+(----|------)1S--2C--2D--,3H, natural
+(----|------)1H--2C--2S--,3D, natural
+(----|------)1H--2C--2D--,2S, natural
 
 ... Cappelletti
 1N(----)?,        Db,  Penalties
