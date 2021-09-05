@@ -1,8 +1,9 @@
-BBOalert, Gul-Tom System<br>Version 20210415<br>
+BBOalert, Gul-Tom System<br>Version 20210609<br>
 Option, Gul-Tom On, criptik+rukh, criptik
 Shortcut,HH, Hi opps; mostly sayc here with puppet stayman; standard carding
 Shortcut,SO, If you see a sitout pair at your table they will be replaced with robots shortly
-Shortcut,IN, Remember to self-alert on BBO.  If you call the director, include a reason.
+Shortcut,IN1, Remember to self-alert on BBO.  We have a playing director so be patient.
+Shortcut,IN2, If you call the director include a reason in your call.
 Shortcut,CL1, This is a clocked tournament so we all move when the slowest table has finished.
 Shortcut,CL2, Please keep things moving and claim when possible.  Remember if the clock runs out,
 Shortcut,CL3, any hand in progress will end immediately and get an average. So keep an eye on the clock.
@@ -15,6 +16,9 @@ Script,B1,R = B.match(makeRegExp(BR))[1];
 Script,B2,R = B.match(makeRegExp(BR))[2];
 . . . get bid suit
 Script,BS,R = B[1]
+. . . testing
+Script,BB,R = B
+Script,CC,R = C
 
 Script,4thSuit,if ((new Set((C+B).match(/[CDHS]/g))).size == 4) R=`4th suit forcing; might not have !${B[1]}`
 Script,weak2Query
@@ -113,6 +117,9 @@ Alias,2Nopen.,(2C--**--|)2N(--|Db)
 2[DHS]--,      2[HS],  natural, not forcing
 2[DHS]--,      2N, forcing; ask for feature (outside K or A)
 2([DHS])--2N--,  3[CDHS],%weak2Query%
+. . . After Opps Weak 2 opening
+2[HS](----)?,  2N,  minors 2-suiter
+2D(----)?,     2N,  !H and !C 2-suiter
 . . .
   Michaels
 1C(----)?, 2C, both majors
@@ -155,9 +162,10 @@ Alias,2Nopen.,(2C--**--|)2N(--|Db)
 1D (|----) 1([HS])__,  2D, limit raise or better in !%C2%
 1H (|----) 1([S])__,   2H, limit raise or better in !%C2%
 . . . Lebensohl over NT interference
-1N 2[CDHS],      2N, asks partner to bid 3!C, then I will show my suit
-+,         2([DHS]), natural 5+!%BS%; not forcing
-1N 2[CDHS] 2N--, 3C, bid forced;  partner will show suit or pass
+1N 2[DHS],      2N, asks partner to bid 3!C; then I will show my suit
+1N 2C,          2N, natural, promises !C stopper
+1N 2[CDHS],     2[DHS], natural 5+!%BS%; not forcing
+1N 2[DHS] 2N--, 3C, bid forced;  partner will show suit or pass
 . . .
 . . . Non Forcing new suit by responder (after interference)
 1C 1[HS], 2D, not forcing

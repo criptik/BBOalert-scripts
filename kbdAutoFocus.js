@@ -151,7 +151,6 @@ window.AUTOFOCUSHELPER = class {
             }
             setTimeout(function () {
                 elDest.focus();
-                this.logIfVerbose(`focus is now on ${document.activeElement}`); 
             }, 500);
         }
     }

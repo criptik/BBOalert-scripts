@@ -1,21 +1,21 @@
 BBOalert, OptTest<br>Version 20210412<br>
 . . . get bid suit
 Script,BS,R = B[1]
-Option,A Off, criptik+basshunter
+Option,A Off, rukh+basshunter
 ,1[CD],natural minor suit opening
-Option,A 12
+Option,A 12, criptik+criptik
 ,1[CD],12 HCP in !%BS%
-Option,A 13
+Option,A 13, criptik+rukh
 ,1[CD],13 HCP in !%BS%
-Option,A 14
+Option,A 14, criptik+rukh4321, criptik+criptik
 ,1[CD],14 HCP in !%BS%
 Option
 Option,B Off
 ,2[CD],natural 2 of a minor
-Option,B_@n
+Option,B_@V, criptik+criptik
 ,2[CD],12 HCP in !%BS%
-Option,B_@N
+Option,B_@n, rukh+rukh4321
 ,2[CD],13 HCP in !%BS%
-Option,B_@V
+Option,B_@V, rukh+rukh4322
 ,2[CD],14 HCP in !%BS%
 Option
