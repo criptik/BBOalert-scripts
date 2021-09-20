@@ -23,6 +23,11 @@ let weak2Suit = C.match(makeRegExp(CR))[1];
 let bidSuit = B[1];
 R = (bidSuit == weak2Suit) ? 'No outside A or K' :  `A or K in !${bidSuit}`;
 Script
+Script,weak2Dbld
+let weak2Suit = C.match(makeRegExp(CR))[1];
+let bidSuit = B[1];
+R = (bidSuit == weak2Suit) ? 'natural raise' :  `lead directing and support for !${weak2Suit}`;
+Script
 
 ... 4th suit only if no splinters etc.
 (|--|----|------)1[CDHS]--[12][CDHS]--__--,__,%4thSuit%
@@ -122,6 +127,8 @@ Alias,2Nopen.,(2C--**--|)2N(--|Db)
 2[DHS]--,      2[HS],  natural, not forcing
 2[DHS]--,      2N, forcing; ask for feature (outside K or A)
 2([DHS])--2N--,  3[CDHS],%weak2Query%
+2([DHS]) Db,     [23][CDHS],%weak2Dbld%
+
 . . . After Opps Weak 2 opening
 2[HS](----)?,  2N,  minors 2-suiter
 2D(----)?,     2N,  !H and !C 2-suiter

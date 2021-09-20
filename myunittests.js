@@ -35,7 +35,12 @@ T,2C--**--, 2N, 22-24 HCP Balanced; could have 5!H or 5!S
 T,1N 2D,    2N, asks partner to bid 3!C; then I will show my suit
 T,1N 2H,    2N, asks partner to bid 3!C; then I will show my suit
 T,1N 2S,    2N, asks partner to bid 3!C; then I will show my suit
-T, ,                   1H, 
+T,     ,    1H, 
+T,2H Db,    2S, lead directing and support for !H
+T,2H Db,    3C, lead directing and support for !H
+T,2S Db,    3H, lead directing and support for !S
+T,2D Db,    3D, natural raise
+T,2S Db,    3S, natural raise
     `;
     
     
