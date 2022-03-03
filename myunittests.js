@@ -13,7 +13,7 @@ T, 1D----1N--, 2D, Jacoby transfer; 5+!Hs
 T, 1H--3S--4C--, 4D,  
 T, ,         1N, 15-17 Balanced could have 5!H or 5!S
 T, --,        +, +
-T, ----,      +, 15-17 Balanced no 5M
+T, ----,      +, +
 T, ------,    +, +
 T, --1N--, 2C, ask for 5-card major; could be weak
 T, 1N--,    +, +

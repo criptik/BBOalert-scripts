@@ -1,4 +1,4 @@
-BBOalert, Gul-Tom System<br>Version 20210920<br>
+BBOalert, Gul-Tom System<br>Version 20211112<br>
 Option, Gul-Tom On, criptik+rukh, criptik
 Shortcut,HH, Hi opps; mostly sayc here with puppet stayman; standard carding
 Shortcut,SO, If you see a sitout pair at your table they will be replaced with robots shortly
@@ -39,6 +39,7 @@ Script
 (----|------)1H--2C--2S--,3D, natural
 (----|------)1H--2C--2D--,2S, natural
 
+,                 1C,  could be as short as 2
 ... Cappelletti
 1N(----)?,        Db,  Penalties
 +,                2C,  one suited hand; !D !H or !S
@@ -56,7 +57,6 @@ Script
 . . . systems on over double
 . . . systems on for 1NT overcall
 ,              1N, 15-17 Balanced could have 5!H or 5!S
-(----|------), 1N, 15-17 Balanced no 5M
 (|--|----|------)(|1[CDHS])(|----)1N(--|Db),          2C, ask for 5-card major; could be weak
 +,                           2D, Jacoby transfer; 5+!Hs
 +,                           2H, Jacoby transfer; 5+!Ss
