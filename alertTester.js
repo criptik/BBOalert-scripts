@@ -30,7 +30,7 @@ window.ALERTTESTER = class {
     }
 
     static getOptButtons() {
-        let adPanel = document.getElementById("adpanel");
+        let adPanel = window.parent.document.getElementById("adpanel");
         if (adPanel == null) {
             console.log('adpanel null');
             return null;

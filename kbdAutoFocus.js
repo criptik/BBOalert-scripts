@@ -25,9 +25,9 @@ window.AUTOFOCUSHELPER = class {
 
     //autofocus stuff
     onAuctionBoxDisplayed() {
-        this.elDealViewerDiv = document.querySelector('.dealViewerDivClass');
+        this.elDealViewerDiv = window.parent.document.querySelector('.dealViewerDivClass');
         if (this.elDealViewerDiv != null) {
-            for (let el of document.querySelectorAll('.dealViewerDivClass *')) {
+            for (let el of window.parent.document.querySelectorAll('.dealViewerDivClass *')) {
                 el.style.cursor = 'crosshair';
             }
         }
@@ -39,7 +39,7 @@ window.AUTOFOCUSHELPER = class {
     }
 
     onAuctionBoxHidden() { 
-        let elTrickPanels = document.querySelectorAll('.tricksPanelTricksLabelClass');
+        let elTrickPanels = window.parent.document.querySelectorAll('.tricksPanelTricksLabelClass');
         this.declDir = (elTrickPanels.length > 0) ? elTrickPanels[0].innerText[0] : '';
         this.logIfVerbose(`declDir detected as ${this.declDir}`);
         this.addKeyDownListener();
@@ -65,24 +65,24 @@ window.AUTOFOCUSHELPER = class {
     addKeyDownListener() {
         this.removeKeyDownListenerIfAny();
         this.boundKeyDownFunc = this.handleKeyDown.bind(this);
-        document.addEventListener('keydown', this.boundKeyDownFunc, true);
+        window.parent.document.addEventListener('keydown', this.boundKeyDownFunc, true);
     }
     
     removeKeyDownListenerIfAny() {
         if (this.boundKeyDownFunc != null) {
-            document.removeEventListener('keydown', this.boundKeyDownFunc, true);
+            window.parent.document.removeEventListener('keydown', this.boundKeyDownFunc, true);
         }
     }
     
     addKeyUpListener() {
         this.removeKeyUpListenerIfAny();
         this.boundKeyUpFunc = this.handleKeyUp.bind(this);
-        document.addEventListener('keyup', this.boundKeyUpFunc, true);
+        window.parent.document.addEventListener('keyup', this.boundKeyUpFunc, true);
     }
 
     removeKeyUpListenerIfAny() {
         if (this.boundKeyUpFunc != null) {
-            document.removeEventListener('keyup', this.boundKeyUpFunc, true);
+            window.parent.document.removeEventListener('keyup', this.boundKeyUpFunc, true);
         }
     }
 
@@ -92,9 +92,9 @@ window.AUTOFOCUSHELPER = class {
         this.lastActivePlayer = window.activePlayer;
         
         // always ignore if we have already entered some Input somewhere
-        let nonEmptyInput = ((document.activeElement.nodeName == 'INPUT') && (document.activeElement.value != ''));
-        let onCardTable = this.inKbdEntryFocus(document.activeElement);
-        let onChat = (document.activeElement == window.getChatInput());
+        let nonEmptyInput = ((window.parent.document.activeElement.nodeName == 'INPUT') && (window.parent.document.activeElement.value != ''));
+        let onCardTable = this.inKbdEntryFocus(window.parent.document.activeElement);
+        let onChat = (window.parent.document.activeElement == window.getChatInput());
         
         // check if I am becoming active or inactive
         let activeId = window.activePlayer.substring(1);
@@ -114,15 +114,15 @@ window.AUTOFOCUSHELPER = class {
             }
                 
         }
-        this.logIfVerbose(`onNewPlayer: ${window.activePlayer} actElem=${document.activeElement.nodeName}, onCardTable=${onCardTable}, onChat=${onChat}, NEI=${nonEmptyInput}, ${isMe}, ${this.isMeActive}`);
+        this.logIfVerbose(`onNewPlayer: ${window.activePlayer} actElem=${window.parent.document.activeElement.nodeName}, onCardTable=${onCardTable}, onChat=${onChat}, NEI=${nonEmptyInput}, ${isMe}, ${this.isMeActive}`);
         // detect a change
         if (isMe !== this.isMeActive) {
             this.isMeActive = isMe;
             // only move focus if we are in certain locations
-            if (!nonEmptyInput && (onCardTable || onChat || (document.activeElement.nodeName == 'BODY'))) {
+            if (!nonEmptyInput && (onCardTable || onChat || (window.parent.document.activeElement.nodeName == 'BODY'))) {
                 let elDest;
                 if (isMe) {
-                    elDest = document.querySelector('.cardSurfaceClass');
+                    elDest = window.parent.document.querySelector('.cardSurfaceClass');
                 }
                 else {
                     elDest = window.getChatInput();
