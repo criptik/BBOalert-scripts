@@ -36,7 +36,7 @@ window.KBDBIDHELPER = class {
     
     saveBiddingButtonElements() {
         // grab bidding button elements
-        let elBiddingBox = document.querySelector(".biddingBoxClass");
+        let elBiddingBox = window.parent.document.querySelector(".biddingBoxClass");
         if (elBiddingBox == null) {
             console.log('Error: elBiddingBox missing');
             return;
@@ -87,19 +87,31 @@ window.KBDBIDHELPER = class {
         mouseDownFunc();
     }
     
+    /**
+     * check if account setting switch is ON
+     * returns 'Y' 'N' or '' if not found
+     * (this should be able to be removed in 8.0.1;  just use the one in Stan's code)
+     */
     isSettingSet(settingIndex) {
-        let rd = document.getElementById('rightDiv');
+        var rd = window.parent.document.getElementById('rightDiv');
         if (rd == null) return '';
-        let sc = rd.querySelectorAll('.settingClass');
-        if (sc.length < settingIndex+1) {
+        var sc = rd.querySelectorAll('.settingClass');
+        if (sc.length < 6) {
             if (sc.length == 0) return '';
         }
-        if (document.querySelectorAll('.settingClass')[settingIndex].querySelector('mat-slide-toggle').classList[2] == "mat-checked") return 'Y';
-        else return 'N';
+        try {
+            if (window.parent.document.querySelectorAll('.settingClass')[settingIndex].querySelector('ion-toggle').getAttribute("aria-checked") == "true") return 'Y';
+            else return 'N';    
+        }
+        catch {
+            return '';
+        }
     }
 
     isKeyboardEntrySet() {
-        return this.isSettingSet(7);
+        const status = this.isSettingSet(7);
+        this.logIfVerbose(`isKeyboardEntrySet: ${status}`);
+        return status
     }
 
 
@@ -302,17 +314,17 @@ window.KBDBIDHELPER = class {
         // for now we will listen at document level 
         // and then ignore the kbd input from INPUT elements, etc.
         this.removeKeyDownListenerIfAny();
-        this.elDealViewerDiv = document.querySelector('.dealViewerDivClass');
+        this.elDealViewerDiv = window.parent.document.querySelector('.dealViewerDivClass');
         if (this.isKeyboardEntrySet() == 'Y') {
             this.boundListenFunc = this.handleKeyboardBid.bind(this);
-            document.addEventListener('keydown', this.boundListenFunc, true);
+            window.parent.document.addEventListener('keydown', this.boundListenFunc, true);
             this.logIfVerbose('Keyboard bidding listener set up');
         }
     }
 
     removeKeyDownListenerIfAny() {
         if (this.boundListenFunc != null) {
-            document.removeEventListener('keydown', this.boundListenFunc, true);
+            window.parent.document.removeEventListener('keydown', this.boundListenFunc, true);
             this.logIfVerbose('Keyboard bidding listener removed');
         }
     }
@@ -329,7 +341,7 @@ window.KBDBIDHELPER = class {
             }
             setTimeout(function () {
                 elDest.focus();
-                // console.log(`focus is now on ${document.activeElement}`); 
+                // console.log(`focus is now on ${window.parent.document.activeElement}`); 
             }, 200);
         }
     }
