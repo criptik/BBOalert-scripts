@@ -1,4 +1,4 @@
-BBOalert, Gul-Tom System<br>Version 20230209<br>
+BBOalert, Gul-Tom System<br>Version 20230210<br>
 Option, Gul-Tom On, criptik+rukh, criptik
 Shortcut,HH, Hi opps; mostly sayc here with puppet stayman; standard carding
 Shortcut,SO, If you see a sitout pair at your table they will be replaced with robots shortly

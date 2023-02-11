@@ -109,8 +109,9 @@ window.KBDBIDHELPER = class {
     }
 
     isKeyboardEntrySet() {
-        const status = this.isSettingSet(7);
-        this.logIfVerbose(`isKeyboardEntrySet: ${status}`);
+        const kbdEntryRoutineInBBOAlert = (window.keyboardEntrySet != null);
+        const status = (kbdEntryRoutineInBBOAlert ? window.keyboardEntrySet() :  this.isSettingSet(7));
+        this.logIfVerbose(`isKeyboardEntrySet: ${status}, globalRoutine=${kbdEntryRoutineInBBOAlert}`);
         return status
     }
 
